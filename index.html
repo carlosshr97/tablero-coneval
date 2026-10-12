@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pobreza en México 2008-2018</title>
+<script src="https://www.gstatic.com/charts/loader.js"></script>
+<style>
+body{font-family:Arial,sans-serif;margin:0;background:#f1f5f9;color:#203047}
+header{background:#17365d;color:white;padding:24px}
+main{max-width:1200px;margin:auto;padding:18px}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+article{background:white;padding:16px;border-radius:10px;box-shadow:0 2px 7px #0001}
+h2{font-size:18px}
+.chart{height:330px}
+.wide{grid-column:1/-1}
+@media(max-width:700px){.grid{grid-template-columns:1fr}.wide{grid-column:auto}}
+</style>
+<script>
+google.charts.load('current',{packages:['corechart']});
+google.charts.setOnLoadCallback(drawCharts);
+
+function drawCharts(){
+ const base={backgroundColor:'transparent',fontName:'Arial',
+   chartArea:{left:65,top:30,width:'82%',height:'70%'}};
+
+ const poverty=google.visualization.arrayToDataTable([
+  ['Año','Pobreza (%)'],['2008',44.4],['2010',46.1],
+  ['2012',45.5],['2014',46.2],['2016',43.6],['2018',41.9]
+ ]);
+ new google.visualization.LineChart(document.getElementById('c1')).draw(
+  poverty,{...base,title:'1. Evolución de la pobreza',
+  colors:['#2878b5'],pointSize:6,
+  vAxis:{title:'Población (%)',format:"0.0'%'"},
+  hAxis:{title:'Año'}});
+
+ const extreme=google.visualization.arrayToDataTable([
+  ['Año','Personas'],['2008',12328176],['2010',12964690],
+  ['2012',11528950],['2014',11442303],['2016',9375581],['2018',9310153]
+ ]);
+ new google.visualization.ColumnChart(document.getElementById('c2')).draw(
+  extreme,{...base,title:'2. Personas en pobreza extrema',
+  colors:['#e58b2a'],legend:{position:'none'},
+  vAxis:{title:'Personas',format:'short'},hAxis:{title:'Año'}});
+
+ const deprivations=google.visualization.arrayToDataTable([
+  ['Carencia','2008 (%)','2018 (%)'],
+  ['Rezago educativo',21.9,16.9],
+  ['Servicios de salud',38.4,16.2],
+  ['Seguridad social',65.0,57.3],
+  ['Calidad y espacios de vivienda',17.7,11.1],
+  ['Servicios básicos de vivienda',22.9,19.8],
+  ['Acceso a alimentación',21.7,20.4]
+ ]);
+ new google.visualization.BarChart(document.getElementById('c3')).draw(
+  deprivations,{...base,title:'3. Carencias sociales: 2008 y 2018',
+  colors:['#17365d','#269b8f'],
+  chartArea:{left:180,top:35,width:'70%',height:'75%'},
+  hAxis:{title:'Porcentaje',format:"0'%'"},
+  bar:{groupWidth:'70%'}});
+
+ const share=google.visualization.arrayToDataTable([
+  ['Situación','Porcentaje'],
+  ['En pobreza',41.9],['No en pobreza',58.1]
+ ]);
+ new google.visualization.PieChart(document.getElementById('c4')).draw(
+  share,{...base,title:'4. Situación de pobreza en 2018',
+  pieHole:0.45,colors:['#2878b5','#d9e2ec'],
+  pieSliceText:'label',legend:{position:'bottom'}});
+
+ const zones=google.visualization.arrayToDataTable([
+  ['Año','Rural (%)','Urbana (%)'],
+  ['2008',62.5,38.9],['2018',55.3,37.6]
+ ]);
+ new google.visualization.AreaChart(document.getElementById('c5')).draw(
+  zones,{...base,title:'5. Pobreza rural y urbana',
+  colors:['#e58b2a','#2878b5'],
+  vAxis:{title:'Población (%)',format:"0'%'"},
+  hAxis:{title:'Año'},areaOpacity:0.18});
+}
+</script>
+</head>
+<body>
+<header>
+<h1>Pobreza en México: 2008–2018</h1>
+<p>Tablero de visualización con datos atribuidos a CONEVAL (2019).</p>
+</header>
+<main>
+<p>Las gráficas permiten examinar la evolución de la pobreza, la pobreza extrema, las carencias sociales y las diferencias entre zonas rurales y urbanas.</p>
+<div class="grid">
+<article><h2>1. Evolución de la pobreza</h2><div id="c1" class="chart"></div></article>
+<article><h2>2. Pobreza extrema</h2><div id="c2" class="chart"></div></article>
+<article class="wide"><h2>3. Carencias sociales</h2><div id="c3" class="chart"></div></article>
+<article><h2>4. Situación de pobreza</h2><div id="c4" class="chart"></div></article>
+<article><h2>5. Zonas rurales y urbanas</h2><div id="c5" class="chart"></div></article>
+</div>
+<p><small>Fuente indicada: CONEVAL (2019). Se requiere conexión a internet para cargar Google Charts.</small></p>
+</main>
+</body>
+</html>
